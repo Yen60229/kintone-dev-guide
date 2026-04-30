@@ -47,12 +47,17 @@
 
 提供開源的 API 用戶端，可使用多種程式語言執行 kintone REST API。
 
-| SDK 名稱 | 語言 | 說明 | 文件連結 |
-|---------|------|------|---------|
-| kintone JavaScript Client | JavaScript / Node.js | 匯總了 JavaScript 中呼叫 kintone REST API 所需的處理的函數庫 | [連結](https://cybozu.dev/zh-tw/kintone/sdk/rest-api-client/kintone-javascript-client/) |
-| kintone Java Client | Java | 匯總了 Java 中處理 kintone REST API 所需的處理方法 | [連結](https://cybozu.dev/zh-tw/kintone/sdk/rest-api-client/kintone-java-client/) |
+| SDK 名稱 | 語言 | 說明 | 文件連結 | GitHub |
+|---------|------|------|---------|--------|
+| kintone JavaScript Client | JavaScript / Node.js | 匯總了 JavaScript 中呼叫 kintone REST API 所需的處理的函數庫 | [cybozu.dev](https://cybozu.dev/zh-tw/kintone/sdk/rest-api-client/kintone-javascript-client/) | [GitHub](https://github.com/kintone/js-sdk/tree/main/packages/rest-api-client) |
+| kintone Java Client | Java | 匯總了 Java 中處理 kintone REST API 所需的處理方法 | [cybozu.dev](https://cybozu.dev/zh-tw/kintone/sdk/rest-api-client/kintone-java-client/) | [GitHub](https://github.com/kintone/kintone-java-client) |
+| kintone API SDK for Ruby | Ruby | 使用 Ruby 與 kintone REST API 通訊（第三方 SDK） | — | [GitHub](https://github.com/SonicGarden/kintone_rb) |
+| kintone API SDK for iOS | iOS / Swift | 整合 iOS 應用程式與 kintone（kintone labs） | — | [GitHub](https://github.com/kintone-labs/kintone-ios-sdk) |
 
-**支援政策**：由 Cybozu 開發並提供，可用於正式環境。原始碼的修改、再分發和商業使用受各自的許可約束。
+**支援政策**：
+- JavaScript Client / Java Client：由 Cybozu 官方開發，可用於正式環境
+- Ruby SDK：第三方開發（SonicGarden），非官方支援
+- iOS SDK：kintone labs 實驗性專案，正式環境使用前請確認維護狀態
 
 ---
 
@@ -74,7 +79,8 @@
 | 工具名稱 | `@kintone/customize-uploader` |
 | 用途 | 自動上傳 kintone 自訂的 CSS 和 JavaScript 檔案 |
 | 適用場景 | 開發時自動部署 JS/CSS 到 kintone app，避免手動操作 |
-| 文件連結 | [連結](https://cybozu.dev/zh-tw/kintone/sdk/development-environment/customize-uploader/) |
+| 文件連結 | [cybozu.dev](https://cybozu.dev/zh-tw/kintone/sdk/development-environment/customize-uploader/) |
+| GitHub | [kintone/js-sdk](https://github.com/kintone/js-sdk/tree/main/packages/customize-uploader) |
 
 ### 3.3 create-plugin
 

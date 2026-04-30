@@ -2,10 +2,10 @@
  * ============================================================
  * kintone 開發 Pattern Library - Jimmy 的個人工具庫
  * ============================================================
- * 
+ *
  * 使用方式：遇到新需求時，先判斷屬於哪個 Pattern，
  *          複製對應模板，填入 CONFIG 即可。
- * 
+ *
  * Pattern 清單：
  *   P1. 欄位聯動    (change event → set value)
  *   P2. 跨 App 查詢  (REST API GET → 渲染到空白欄)
@@ -15,7 +15,6 @@
  *   P6. 表單驗證     (submit event → return false 阻擋)
  * ============================================================
  */
-
 
 // =============================================================
 // P1. 欄位聯動
@@ -31,8 +30,8 @@
   'use strict';
 
   const CONFIG = {
-    TRIGGER_FIELDS: ['quantity', 'unit_price'],  // 觸發計算的欄位
-    TARGET_FIELD: 'total_amount',                // 寫入結果的欄位
+    TRIGGER_FIELDS: ['quantity', 'unit_price'], // 觸發計算的欄位
+    TARGET_FIELD: 'total_amount', // 寫入結果的欄位
   };
 
   const calculate = (record) => {
@@ -56,7 +55,6 @@
   });
 })();
 
-
 // =============================================================
 // P2. 跨 App 查詢 + 渲染
 // =============================================================
@@ -72,10 +70,10 @@
 
   const CONFIG = {
     SOURCE_APP: 450,
-    LOOKUP_FIELD: 'supplier_code',      // 本 app 中用來查詢的欄位
-    SOURCE_KEY_FIELD: 'sup_code',       // 來源 app 中的 key 欄位
+    LOOKUP_FIELD: 'supplier_code', // 本 app 中用來查詢的欄位
+    SOURCE_KEY_FIELD: 'sup_code', // 來源 app 中的 key 欄位
     DISPLAY_FIELDS: ['sup_quality_score', 'sup_eval_date'],
-    SPACE_ELEMENT_ID: 'related_data',   // 空白欄位 ID
+    SPACE_ELEMENT_ID: 'related_data', // 空白欄位 ID
   };
 
   const fetchRelatedRecords = async (keyValue) => {
@@ -84,7 +82,11 @@
     const resp = await kintone.api(
       kintone.api.url('/k/v1/records.json', true),
       'GET',
-      { app: CONFIG.SOURCE_APP, query, fields: [CONFIG.SOURCE_KEY_FIELD, ...CONFIG.DISPLAY_FIELDS] }
+      {
+        app: CONFIG.SOURCE_APP,
+        query,
+        fields: [CONFIG.SOURCE_KEY_FIELD, ...CONFIG.DISPLAY_FIELDS],
+      },
     );
     return resp.records;
   };
@@ -97,24 +99,27 @@
       return;
     }
     // --- 自訂渲染邏輯 ---
-    el.innerHTML = records.map((r) => `
+    el.innerHTML = records
+      .map(
+        (r) => `
       <div style="padding:8px; border-bottom:1px solid #eee;">
         ${CONFIG.DISPLAY_FIELDS.map((f) => r[f]?.value || '—').join(' / ')}
       </div>
-    `).join('');
+    `,
+      )
+      .join('');
   };
 
-  kintone.events.on([
-    'app.record.detail.show',
-    'mobile.app.record.detail.show',
-  ], async (event) => {
-    const keyValue = event.record[CONFIG.LOOKUP_FIELD].value;
-    const records = await fetchRelatedRecords(keyValue);
-    renderToSpace(records, CONFIG.SPACE_ELEMENT_ID);
-    return event;
-  });
+  kintone.events.on(
+    ['app.record.detail.show', 'mobile.app.record.detail.show'],
+    async (event) => {
+      const keyValue = event.record[CONFIG.LOOKUP_FIELD].value;
+      const records = await fetchRelatedRecords(keyValue);
+      renderToSpace(records, CONFIG.SPACE_ELEMENT_ID);
+      return event;
+    },
+  );
 })();
-
 
 // =============================================================
 // P3. 批量操作（全量獲取 + 逐批更新）
@@ -136,14 +141,16 @@
 
     const { id } = await kintone.api(
       kintone.api.url('/k/v1/records/cursor.json', true),
-      'POST', body
+      'POST',
+      body,
     );
 
     try {
       while (true) {
         const resp = await kintone.api(
           kintone.api.url('/k/v1/records/cursor.json', true),
-          'GET', { id }
+          'GET',
+          { id },
         );
         records.push(...resp.records);
         if (!resp.next) break;
@@ -153,9 +160,12 @@
       try {
         await kintone.api(
           kintone.api.url('/k/v1/records/cursor.json', true),
-          'DELETE', { id }
+          'DELETE',
+          { id },
         );
-      } catch { /* ignore */ }
+      } catch {
+        /* ignore */
+      }
       throw err;
     }
 
@@ -175,7 +185,8 @@
       };
       const resp = await kintone.api(
         kintone.api.url('/k/v1/records.json', true),
-        'PUT', body
+        'PUT',
+        body,
       );
       results.push(...resp.records);
     }
@@ -195,7 +206,6 @@
   window.KintoneUtils.getAllRecords = getAllRecords;
   window.KintoneUtils.bulkUpdate = bulkUpdate;
 })();
-
 
 // =============================================================
 // P4. 權限控制（欄位顯示/隱藏 + 停用）
@@ -222,7 +232,9 @@
   // 方法一：用 JS API 控制（推薦，原生支援）
   const controlFieldVisibility = (record, orgs) => {
     const userOrgs = kintone.user.getOrganizations().map((o) => o.name);
-    const canSeeCost = CONFIG.COST_VISIBLE_ORGS.some((org) => userOrgs.includes(org));
+    const canSeeCost = CONFIG.COST_VISIBLE_ORGS.some((org) =>
+      userOrgs.includes(org),
+    );
 
     CONFIG.COST_FIELDS.forEach((field) => {
       kintone.app.record.setFieldShown(field, canSeeCost);
@@ -241,30 +253,32 @@
     });
   };
 
-  kintone.events.on([
-    'app.record.detail.show',
-    'app.record.edit.show',
-    'mobile.app.record.detail.show',
-    'mobile.app.record.edit.show',
-  ], (event) => {
-    controlFieldVisibility(event.record);
+  kintone.events.on(
+    [
+      'app.record.detail.show',
+      'app.record.edit.show',
+      'mobile.app.record.detail.show',
+      'mobile.app.record.edit.show',
+    ],
+    (event) => {
+      controlFieldVisibility(event.record);
 
-    // 已核准的記錄，鎖定關鍵欄位
-    if (event.record.Status?.value === CONFIG.APPROVED_STATUS) {
-      // edit 畫面：用 disabled 屬性
-      CONFIG.LOCK_AFTER_APPROVED.forEach((field) => {
-        event.record[field].disabled = true;
-      });
-      // detail 畫面：用 CSS 輔助
-      if (event.type.includes('detail')) {
-        lockFieldsByCSS(CONFIG.LOCK_AFTER_APPROVED);
+      // 已核准的記錄，鎖定關鍵欄位
+      if (event.record.Status?.value === CONFIG.APPROVED_STATUS) {
+        // edit 畫面：用 disabled 屬性
+        CONFIG.LOCK_AFTER_APPROVED.forEach((field) => {
+          event.record[field].disabled = true;
+        });
+        // detail 畫面：用 CSS 輔助
+        if (event.type.includes('detail')) {
+          lockFieldsByCSS(CONFIG.LOCK_AFTER_APPROVED);
+        }
       }
-    }
 
-    return event;
-  });
+      return event;
+    },
+  );
 })();
-
 
 // =============================================================
 // P5. 流程管理（狀態遷移前的驗證 + 自動處理）
@@ -282,13 +296,13 @@
   const CONFIG = {
     // 動作名稱 → 需要的驗證規則
     ACTION_RULES: {
-      '提交審核': {
+      提交審核: {
         requiredFields: ['quantity', 'unit_price', 'delivery_date'],
         autoSet: {
-          submit_datetime: () => new Date().toISOString(),  // ISO 8601!
+          submit_datetime: () => new Date().toISOString(), // ISO 8601!
         },
       },
-      '核准': {
+      核准: {
         requiredFields: ['approver_comment'],
         autoSet: {
           approved_datetime: () => new Date().toISOString(),
@@ -296,7 +310,7 @@
         // 只有特定職稱才能執行
         allowedTitles: ['部長', '課長'],
       },
-      '退回': {
+      退回: {
         requiredFields: ['reject_reason'],
         autoSet: {},
       },
@@ -322,42 +336,44 @@
     return orgs.some((org) => allowedTitles.includes(org.name));
   };
 
-  kintone.events.on([
-    'app.record.detail.process.proceed',
-    'mobile.app.record.detail.process.proceed',
-  ], async (event) => {
-    const action = event.action.value;
-    const rules = CONFIG.ACTION_RULES[action];
+  kintone.events.on(
+    [
+      'app.record.detail.process.proceed',
+      'mobile.app.record.detail.process.proceed',
+    ],
+    async (event) => {
+      const action = event.action.value;
+      const rules = CONFIG.ACTION_RULES[action];
 
-    if (!rules) return event;  // 沒有定義規則的動作，直接放行
+      if (!rules) return event; // 沒有定義規則的動作，直接放行
 
-    // 1. 驗證必填
-    const emptyFields = validateRequired(event.record, rules.requiredFields);
-    if (emptyFields.length > 0) {
-      event.error = `以下欄位為必填：${emptyFields.join(', ')}`;
-      return event;
-    }
-
-    // 2. 驗證權限
-    if (rules.allowedTitles) {
-      const allowed = await checkUserTitle(rules.allowedTitles);
-      if (!allowed) {
-        event.error = '您的職稱沒有權限執行此操作';
+      // 1. 驗證必填
+      const emptyFields = validateRequired(event.record, rules.requiredFields);
+      if (emptyFields.length > 0) {
+        event.error = `以下欄位為必填：${emptyFields.join(', ')}`;
         return event;
       }
-    }
 
-    // 3. 自動設值
-    Object.entries(rules.autoSet).forEach(([field, valueFn]) => {
-      if (event.record[field]) {
-        event.record[field].value = valueFn();
+      // 2. 驗證權限
+      if (rules.allowedTitles) {
+        const allowed = await checkUserTitle(rules.allowedTitles);
+        if (!allowed) {
+          event.error = '您的職稱沒有權限執行此操作';
+          return event;
+        }
       }
-    });
 
-    return event;
-  });
+      // 3. 自動設值
+      Object.entries(rules.autoSet).forEach(([field, valueFn]) => {
+        if (event.record[field]) {
+          event.record[field].value = valueFn();
+        }
+      });
+
+      return event;
+    },
+  );
 })();
-
 
 // =============================================================
 // P6. 表單驗證（存檔前攔截）
@@ -378,7 +394,7 @@
       KEY_FIELD: 'supplier_code',
       // 不同動作類型有不同的驗證規則
       RULES: {
-        '年度定期更新': {
+        年度定期更新: {
           // 同一供應商 + 同年度不能重複
           additionalQuery: (record) => {
             const year = new Date().getFullYear();
@@ -386,7 +402,7 @@
           },
           errorMessage: '該供應商本年度已有更新記錄',
         },
-        '恢復': {
+        恢復: {
           // 恢復不檢查年度，但檢查狀態
           additionalQuery: () => ' and status = "有效"',
           errorMessage: '該供應商目前狀態為有效，無需恢復',
@@ -399,10 +415,10 @@
     const actionType = record.action_type?.value;
     const keyValue = record[CONFIG.DUPLICATE_CHECK.KEY_FIELD]?.value;
 
-    if (!keyValue) return null;  // 沒填 key 就不檢查
+    if (!keyValue) return null; // 沒填 key 就不檢查
 
     const rule = CONFIG.DUPLICATE_CHECK.RULES[actionType];
-    if (!rule) return null;  // 沒有定義規則的動作類型，不檢查
+    if (!rule) return null; // 沒有定義規則的動作類型，不檢查
 
     let query = `${CONFIG.DUPLICATE_CHECK.KEY_FIELD} = "${keyValue}"`;
     query += rule.additionalQuery(record);
@@ -416,7 +432,12 @@
     const resp = await kintone.api(
       kintone.api.url('/k/v1/records.json', true),
       'GET',
-      { app: CONFIG.DUPLICATE_CHECK.APP_ID, query, fields: ['$id'], totalCount: true }
+      {
+        app: CONFIG.DUPLICATE_CHECK.APP_ID,
+        query,
+        fields: ['$id'],
+        totalCount: true,
+      },
     );
 
     if (resp.totalCount !== '0') {
@@ -425,16 +446,19 @@
     return null;
   };
 
-  kintone.events.on([
-    'app.record.create.submit',
-    'app.record.edit.submit',
-    'mobile.app.record.create.submit',
-    'mobile.app.record.edit.submit',
-  ], async (event) => {
-    const error = await checkDuplicate(event.record);
-    if (error) {
-      event.error = error;
-    }
-    return event;
-  });
+  kintone.events.on(
+    [
+      'app.record.create.submit',
+      'app.record.edit.submit',
+      'mobile.app.record.create.submit',
+      'mobile.app.record.edit.submit',
+    ],
+    async (event) => {
+      const error = await checkDuplicate(event.record);
+      if (error) {
+        event.error = error;
+      }
+      return event;
+    },
+  );
 })();
