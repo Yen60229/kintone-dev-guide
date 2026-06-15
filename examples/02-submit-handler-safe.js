@@ -172,9 +172,11 @@
 
     // 驗證模組
     validate: (record) => {
-      if (!record.item_code.value) return '品項代碼必填';
-      if (Number(record.qty.value) <= 0) return '數量必須大於 0';
-      return null;
+      switch (true) {
+        case !record.item_code.value:        return '品項代碼必填';
+        case Number(record.qty.value) <= 0:  return '數量必須大於 0';
+        default:                             return null;
+      }
     },
 
     // 權限檢查模組

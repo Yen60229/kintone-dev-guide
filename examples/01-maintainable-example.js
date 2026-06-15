@@ -78,10 +78,12 @@
 
   /** 根據分數計算評等 A/B/C/D */
   const calcGrade = (score) => {
-    if (score >= CONFIG.GRADE_THRESHOLDS.A) return 'A';
-    if (score >= CONFIG.GRADE_THRESHOLDS.B) return 'B';
-    if (score >= CONFIG.GRADE_THRESHOLDS.C) return 'C';
-    return 'D';
+    switch (true) {
+      case score >= CONFIG.GRADE_THRESHOLDS.A: return 'A';
+      case score >= CONFIG.GRADE_THRESHOLDS.B: return 'B';
+      case score >= CONFIG.GRADE_THRESHOLDS.C: return 'C';
+      default:                                 return 'D';
+    }
   };
 
   /** 平均分數；無記錄回傳 null */

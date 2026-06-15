@@ -409,33 +409,25 @@
     async (event) => {
       const action = event.action.value;
       const rules = CONFIG.ACTION_RULES[action];
-
       if (!rules) return event; // 沒有定義規則的動作，直接放行
 
-      // 1. 驗證必填
+      // 先把所有需要 await 的結果算好，再進 switch 統一分派
       const emptyFields = validateRequired(event.record, rules.requiredFields);
-      if (emptyFields.length > 0) {
-        event.error = `以下欄位為必填：${emptyFields.join(', ')}`;
-        return event;
-      }
+      const allowed = await checkUserTitle(rules.allowedTitles);
 
-      // 2. 驗證權限
-      if (rules.allowedTitles) {
-        const allowed = await checkUserTitle(rules.allowedTitles);
-        if (!allowed) {
+      switch (true) {
+        case emptyFields.length > 0:
+          event.error = `以下欄位為必填：${emptyFields.join(', ')}`;
+          return event;
+        case !allowed:
           event.error = '您的職稱沒有權限執行此操作';
           return event;
-        }
+        default:
+          Object.entries(rules.autoSet).forEach(([field, valueFn]) => {
+            if (event.record[field]) event.record[field].value = valueFn();
+          });
+          return event;
       }
-
-      // 3. 自動設值
-      Object.entries(rules.autoSet).forEach(([field, valueFn]) => {
-        if (event.record[field]) {
-          event.record[field].value = valueFn();
-        }
-      });
-
-      return event;
     },
   );
 })();
