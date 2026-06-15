@@ -122,19 +122,71 @@
 })();
 
 // =============================================================
-// P3. 批量操作（全量獲取 + 逐批更新）
+// P3. 批量操作（串流處理 + 逐批更新）
 // =============================================================
-// 場景：需要更新大量記錄（超過 100 筆）
-// 適用：管理者工具、資料遷移、定期維護
+// 場景：需要讀取/更新大量記錄（超過 100 筆）
+// 適用：管理者「主動觸發」的批次工具、資料遷移、定期維護
 //
 // 你之前的實際案例：
 //   - 562 行的批量更新工具（支援範圍 ID、個別 ID、混合格式）
+//
+// ⚠️ 記憶體鐵則（8GB 機器，詳見 docs/08-performance-memory.md）：
+//   1. 「使用者填表的當下」絕對不要做批量讀取 —— 不要在 change /
+//      submit / *.show 事件裡呼叫 getAllRecords / forEachRecord。
+//      那些是使用者正在等畫面的時刻，全量載入＝整頁凍結甚至崩潰。
+//      批量只在「管理員主動按下工具按鈕」這類非互動場景跑。
+//   2. 預設用串流版 forEachRecord（邊抓邊算邊丟，記憶體恆定）。
+//      只有真的需要「同時握住全部記錄做跨筆運算」時，才用 getAllRecords，
+//      且務必配 Map 索引（原則 3）取代巢狀迴圈。
+//   3. 讀取一律指定 fields 白名單，不要撈全欄位（原則 4）。
 
 (() => {
   'use strict';
 
-  // --- 全量獲取（使用 cursor，無 500 筆限制）---
+  // --- 串流讀取（預設首選）---------------------------------
+  // 邊抓邊把每筆交給 handler，全程不堆積整份資料 → 記憶體恆定，
+  // 不隨資料量成長。用 $id seek 分頁（不用 offset，資料變動時 offset 會錯位漏抓）。
+  const forEachRecord = async (
+    app,
+    handler,
+    { fields, extraQuery = '', pageSize = 500 } = {},
+  ) => {
+    // 新函式從嚴：強制白名單，杜絕「圖方便撈全欄位」
+    if (!fields || fields.length === 0) {
+      throw new Error('[forEachRecord] 必須指定 fields 白名單（記憶體原則 4：禁止撈全欄位）');
+    }
+    if (!fields.includes('$id')) fields = ['$id', ...fields];
+
+    let lastId = 0;
+    while (true) {
+      const where = extraQuery
+        ? `(${extraQuery}) and $id > ${lastId}`
+        : `$id > ${lastId}`;
+      const resp = await kintone.api(
+        kintone.api.url('/k/v1/records.json', true),
+        'GET',
+        { app, query: `${where} order by $id asc limit ${pageSize}`, fields },
+      );
+      if (resp.records.length === 0) break;
+
+      for (const record of resp.records) await handler(record);
+      lastId = Number(resp.records[resp.records.length - 1].$id.value);
+      // resp 在此離開 scope，下一輪前可被 GC 回收 → 記憶體不累積
+    }
+  };
+
+  // --- 全量獲取（逃生門，僅限批次工具）---------------------
+  // ⚠️ 會把「全部」記錄堆進一個陣列。數萬筆 × 多欄位 = 數百 MB。
+  //    只在管理員主動觸發、且真的需要一次握住全部記錄時才用。
+  //    絕對不要在 change / submit / *.show 等互動事件裡呼叫！
+  //    能用 forEachRecord 串流就別用這個。
   const getAllRecords = async (app, query = '', fields = []) => {
+    // 既有函式從寬：保留向後相容，但出聲提醒（給開發者看，非終端使用者）
+    if (fields.length === 0) {
+      console.warn(
+        '[getAllRecords] 未指定 fields，將撈回所有欄位，記憶體用量可能暴增。建議傳入 fields 白名單。',
+      );
+    }
     const records = [];
     const body = { app, query, size: 500 };
     if (fields.length > 0) body.fields = fields;
@@ -152,7 +204,7 @@
           'GET',
           { id },
         );
-        records.push(...resp.records);
+        records.push(...resp.records); // ⚠️ 全量堆積點：資料量大時的記憶體高峰
         if (!resp.next) break;
       }
     } catch (err) {
@@ -172,37 +224,49 @@
     return records;
   };
 
-  // --- 逐批更新（每次最多 100 筆）---
-  const bulkUpdate = async (app, records, buildUpdateBody) => {
-    const BATCH_SIZE = 100;
-    const results = [];
-
-    for (let i = 0; i < records.length; i += BATCH_SIZE) {
-      const batch = records.slice(i, i + BATCH_SIZE);
-      const body = {
-        app,
-        records: batch.map(buildUpdateBody),
-      };
-      const resp = await kintone.api(
+  // --- 逐批更新（每批最多 100 筆 + 批間節流）---------------
+  const bulkUpdate = async (
+    app,
+    records,
+    buildUpdateBody,
+    { batchSize = 100, throttleMs = 200 } = {},
+  ) => {
+    for (let i = 0; i < records.length; i += batchSize) {
+      const batch = records.slice(i, i + batchSize);
+      await kintone.api(
         kintone.api.url('/k/v1/records.json', true),
         'PUT',
-        body,
+        { app, records: batch.map(buildUpdateBody) },
       );
-      results.push(...resp.records);
+      // 批間稍等：讓出主執行緒 + 避開 API 速率限制 GAIA_TM12
+      if (i + batchSize < records.length) {
+        await new Promise((resolve) => setTimeout(resolve, throttleMs));
+      }
+      // 注意：不累積回傳的 records（原則 7）。需要逐筆結果時再自行收集，
+      //      但通常用 try-catch 控制成功與否即可，不必握住整份回傳。
     }
-
-    return results;
   };
 
   // --- 使用範例 ---
-  // const records = await getAllRecords(639, 'status = "未處理"');
+  // 【首選】串流：彙總每個供應商的金額，只留彙總結果（一個 Map），不留原始記錄
+  // const totalByCode = new Map();
+  // await forEachRecord(639, (rec) => {
+  //   const code = rec.supplier_code.value;
+  //   totalByCode.set(code, (totalByCode.get(code) || 0) + Number(rec.amount.value));
+  // }, { fields: ['supplier_code', 'amount'], extraQuery: 'status = "有效"' });
+  //
+  // 【批次工具】全量 + 分批更新（管理員主動觸發，非互動事件）
+  // const records = await getAllRecords(639, 'status = "未處理"', ['$id', 'status']);
   // await bulkUpdate(639, records, (rec) => ({
   //   id: rec.$id.value,
   //   record: { status: { value: '處理中' } },
   // }));
 
-  // 如果要在其他檔案使用，掛到全域
+  // 掛到全域給其他檔案使用
+  // ⚠️ 只掛「函式」，絕對不要把抓回來的大資料掛上 window，
+  //    否則 window 會一直握著它，GC 無法回收 → 記憶體洩漏（原則 7）
   window.KintoneUtils = window.KintoneUtils || {};
+  window.KintoneUtils.forEachRecord = forEachRecord;
   window.KintoneUtils.getAllRecords = getAllRecords;
   window.KintoneUtils.bulkUpdate = bulkUpdate;
 })();
@@ -230,8 +294,9 @@
   };
 
   // 方法一：用 JS API 控制（推薦，原生支援）
-  const controlFieldVisibility = (record, orgs) => {
-    const userOrgs = kintone.user.getOrganizations().map((o) => o.name);
+  const controlFieldVisibility = () => {
+    // 行動版 getOrganizations() 可能回傳 undefined → fallback 空陣列，避免 throw
+    const userOrgs = (kintone.user.getOrganizations?.() || []).map((o) => o.name);
     const canSeeCost = CONFIG.COST_VISIBLE_ORGS.some((org) =>
       userOrgs.includes(org),
     );
@@ -261,7 +326,7 @@
       'mobile.app.record.edit.show',
     ],
     (event) => {
-      controlFieldVisibility(event.record);
+      controlFieldVisibility();
 
       // 已核准的記錄，鎖定關鍵欄位
       if (event.record.Status?.value === CONFIG.APPROVED_STATUS) {

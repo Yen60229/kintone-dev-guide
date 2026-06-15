@@ -17,7 +17,8 @@ kintone-dev-guide/
 │   ├── 03-ai-collaboration-guide.md       # 與 Claude 協作開發最佳實踐
 │   ├── 05-development-log.md              # 開發日誌模板與踩坑紀錄
 │   ├── 06-security-stability.md          # 安全性 & 穩定性指南（submit 覆蓋、XSS、race condition）
-│   └── 07-ai-integration.md              # kintone × AI 整合（MCP Server、Dify）
+│   ├── 07-ai-integration.md              # kintone × AI 整合（MCP Server、Dify）
+│   └── 08-performance-memory.md          # 效能 & 記憶體優化（8GB 機器：降級/分流/DAO + 8 條原則）
 ├── examples/                              # 完整範例
 │   ├── 01-maintainable-example.js         # App 639 品質管理 - 可維護架構範例
 │   └── 02-submit-handler-safe.js          # 安全的 Submit Handler 設計範例
@@ -78,6 +79,7 @@ kintone-dev-guide/
 | 行動版 API 回傳 undefined | 部分 JS API 行動版不支援 | [06-security-stability.md](docs/06-security-stability.md#6-行動版相容性) |
 | 事件綁定了但完全沒反應 | 事件名稱拼錯（靜默失效） | [06-security-stability.md](docs/06-security-stability.md#2-事件處理器的穩定性陷阱) |
 | 大量資料查詢結果不完整 | 沒有用 cursor 分頁 | [06-security-stability.md](docs/06-security-stability.md#5-race-condition非同步競爭) |
+| 資料量一大就白畫面/卡死（8GB 機器） | 前端全量抓取 + 當下重算 | [08-performance-memory.md](docs/08-performance-memory.md) |
 
 ## 🤖 AI 整合
 

@@ -335,6 +335,9 @@ const getAllRecords = async (appId, query) => {
 };
 ```
 
+> ⚠️ **記憶體警告**：上面的 `getAllRecords` 會把**全部**記錄 `push` 進同一個陣列。資料量大時（數千～數萬筆）會吃掉數百 MB，在 8GB／已用 80% 的機器上足以讓分頁崩潰。
+> 只在「資料量保證很小」時用這個版本；需要處理大量資料時，請改用 [08-performance-memory.md](08-performance-memory.md#11-dao-參考實作把原則-4567-收斂到一處) 的**串流版 `forEachRecord()`**（邊抓邊算邊丟，記憶體恆定），並務必指定 `fields` 白名單。
+
 ---
 
 ## 6. 行動版相容性
