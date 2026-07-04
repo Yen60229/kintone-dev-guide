@@ -60,7 +60,12 @@
 
 ## 4. Kintone MCP Server（AI 直接操作 kintone）
 
-Cybozu 官方的 MCP Server，讓 Claude Desktop 直接操作 kintone。
+Cybozu 官方的 MCP Server（[kintone/mcp-server](https://github.com/kintone/mcp-server)），讓 AI 直接操作 kintone。有兩種安裝形式，驗證支援不同：
+
+| 安裝形式 | 驗證方式 |
+|---|---|
+| Claude Desktop 用的 `.mcpb` 擴充 | 只支援帳號＋密碼 |
+| 官方 GitHub CLI / Docker 版 | 支援帳號＋密碼，**也支援 API Token**（`KINTONE_API_TOKEN`，最多 9 組逗號分隔）；兩者同時設定時密碼優先 |
 
 ### 支援操作
 | 分類 | 功能 |
@@ -72,21 +77,25 @@ Cybozu 官方的 MCP Server，讓 Claude Desktop 直接操作 kintone。
 | 部署 | 檢查狀態、部署到正式環境 |
 | 附件 | 下載附件 |
 
-### 安裝（Claude Desktop）
+### 安裝（Claude Desktop，.mcpb）
 1. 下載 .mcpb 檔案
 2. 在 Claude Desktop 安裝 MCP 擴充
 3. 輸入：子域 `your-domain.cybozu.com`、帳號、密碼
 4. 重新啟動 Claude Desktop
 
+### 帳號啟用二步驟驗證（2FA）時的限制
+kintone 的 2FA 明確排除「API 型的帳號密碼驗證」——帳號一旦開啟 2FA，原本用帳號密碼登入的外部工具（含 MCP 的 Basic Auth）會直接認證失敗，這是 kintone 2FA 設計的已知限制，不是 MCP 特有問題。解法二選一：
+- **改用官方 GitHub CLI/Docker 版 + API Token**：完全不受帳號 2FA 狀態影響，且權限範圍可控、可隨時撤銷，是推薦做法。
+- **建立專用 AI 操作帳號並對該帳號豁免 2FA 強制**：若只能用 `.mcpb`（僅支援帳密）才需要這條路。
+
 ### 限制
-- 用帳號密碼驗證（不支援 API Token）
-- 操作以你的帳號身份執行
+- `.mcpb` 版操作以帳號身份執行；CLI/Docker 版用 API Token 時以該 Token 授權範圍執行
 - 受 REST API 速率限制
 - 不受官方 API 支援服務台支援（用 GitHub Issues）
 
 ### 安全提醒
 - 不要連到含機密資料的正式環境
-- 建立專用「AI 操作帳號」
+- 建立專用「AI 操作帳號」或專用 API Token，權限範圍越小越好
 - 定期審查操作記錄
 
 ---
