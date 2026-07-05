@@ -8,10 +8,15 @@
 2. **AI(或人)手改整份 JSON 容易漏**——加一個關卡要同時改 5~7 個地方,漏一個就是流程卡死或按鈕消失,而且匯入前沒有任何檢查。
 3. **Bookmarklet 匯入直接覆蓋正式設定**,沒有備份、沒有預演。
 
-這套工具把它拆成四層,每層只做一件事:
+這套工具把它拆成五層,每層只做一件事(第 0 層是這次新增的——解決「每個 App 的欄位/群組代碼都不一樣」這個痛點):
 
 ```
-spec.example.js     你維護的規格檔(約 150 行,含註解)
+node lookup.js --app <ID>   ← 0. 查這個 App 能用的欄位/群組/組織代碼(不用去後台一個個抄)
+    ▼
+design-intake.template.md   ← 1. 純中文填空需求單,對照 lookup 的代碼填,不用懂 JS
+    │  貼給 Claude:「幫我把這份需求單轉成 spec.js」
+    ▼
+spec.js                     ← 2. 你維護的規格檔(約 150 行,含註解)
     │  node generate.js        ← 自動展開駁回/再申請/作廢樣板
     ▼
 out/xxx.json        完整的 status.json(1,100+ 行,不用手碰)
@@ -29,7 +34,31 @@ kintone 正式環境
 
 Node.js 18 以上(用到內建 fetch)。無任何 npm 相依,`node` 直接跑。
 
-## 五分鐘上手
+## 每次遇到新 App:先查代碼、再設計(第 0~1 層)
+
+每個 App 的欄位代碼、群組代碼都不一樣,規格檔裡的 `field:xxx` / `group:xxx` 要填對代碼才行。
+不用自己去 kintone 後台一個個找,先跑:
+
+```bash
+set KINTONE_BASE_URL=https://your-domain.cybozu.com
+set KINTONE_API_TOKEN=你的token
+node lookup.js --app 140
+```
+
+會印出三張表:
+- **① 這個 App 的「選擇使用者/群組/組織」型欄位**——可以當 `assignee` 的 `field:欄位代碼`,用 App 專用 API Token 就查得到。
+- **② 系統群組清單**——可用的 `group:群組代碼`。這支 API 需要系統管理權限,一般 App 專用 Token 通常查不到;查不到時改用 kintone「系統管理 → 使用者與系統管理 → 群組」畫面查,代碼欄就是要填的值。
+- **③ 系統組織清單**——同上,`org:組織代碼`。
+
+拿到代碼之後,打開 **`design-intake.template.md`**,複製一份填(例如存成 `design-我的App.md`)。
+這份是**純中文問答表**,不用懂 JS 語法:每個簽核關卡填「誰處理、要不要駁回、是不是終點」;
+每條流程走向填「從哪到哪、白話講的觸發條件、是不是測試用」。範例區塊照抄格式即可。
+
+填完把整份檔案內容貼給 Claude,說一句「**幫我把這份需求單轉成 spec.js**」,
+就會對照 `spec.example.js` 的格式幫你寫好規格檔——條件會自動轉成正確的 kintone 查詢語法
+（含 `" GROUP"`/`" ORGANIZATION"` 那種容易打錯的特殊 token）。
+
+## 五分鐘上手(已經有 spec.js 之後)
 
 ```bash
 cd tools/process-gen
@@ -150,10 +179,15 @@ policies: {
 **Q:index(狀態顯示順序)可以控制嗎?**
 預設「主要狀態依列出順序 → 駁回狀態 → 終態」。要固定某個狀態的編號,寫 `index: 16`(狀態)或 `reject: { index: 16 }`(駁回狀態)。
 
+**Q:`lookup.js` 查群組/組織清單一直失敗?**
+`/v1/groups.json`、`/v1/organizations.json` 屬於系統管理 API,要有系統管理權限的驗證方式(帳號密碼或系統管理用 Token)才查得到,一般的 App 專用 API Token 通常沒有這個權限,會直接失敗。這時改用 kintone 畫面「系統管理 → 使用者與系統管理 → 群組/組織」直接看代碼,一樣可以填進 spec.js,不影響後續流程。① 欄位查詢不受此限制,App 專用 Token 就能查。
+
 ## 檔案一覽
 
 | 檔案 | 用途 |
 |---|---|
+| `lookup.js` | 查詢某 App 可用的欄位/群組/組織代碼(設計前先跑) |
+| `design-intake.template.md` | 純中文填空需求單,填完交給 Claude 轉成 spec.js |
 | `spec.example.js` | 規格檔範例(= App 140 現行流程的完整表達) |
 | `generate.js` | spec → 完整 status.json,`--production` 剔除開發用動作 |
 | `validate.js` | 匯入前檢查(結構錯誤 + 反模式) |
