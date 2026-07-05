@@ -57,7 +57,7 @@
 | `USER` | 指定使用者 | code = 登入名 |
 | `GROUP` | 群組 | 建議用群組管簽核角色，人事異動只改群組成員 |
 | `ORGANIZATION` | 組織 | 搭配 includeSubs |
-| `FIELD_ENTITY` | 表單上的「選擇使用者」欄位 | code = 欄位代碼；動態指派的主要手段 |
+| `FIELD_ENTITY` | 表單上的「使用者選擇」「組織選擇」或「群組選擇」欄位 | code = 欄位代碼；動態指派的主要手段。群組選擇欄位當處理人時，kintone 會指派**該筆記錄選到的那個群組**裡的成員（依記錄不同而不同，與 entity.type=`GROUP` 的固定群組不同） |
 | `CREATOR` | 記錄建立人 | |
 
 ### filterCond 的特殊語法

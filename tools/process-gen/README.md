@@ -39,10 +39,12 @@ Node.js 18 以上(用到內建 fetch)。無任何 npm 相依,`node` 直接跑。
 每個 App 的欄位代碼、群組代碼都不一樣,規格檔裡的 `field:xxx` / `group:xxx` 要填對代碼才行。
 不用自己去 kintone 後台一個個找,先跑:
 
-```bash
-set KINTONE_BASE_URL=https://your-domain.cybozu.com
-set KINTONE_API_TOKEN=你的token
+```powershell
+# PowerShell(Windows 預設終端機)
+$env:KINTONE_BASE_URL = "https://your-domain.cybozu.com"
+$env:KINTONE_API_TOKEN = "你的token"
 node lookup.js --app 140
+# (若用 cmd.exe 則改成 set KINTONE_BASE_URL=... 的寫法)
 ```
 
 會印出三張表:
@@ -73,8 +75,8 @@ node validate.js out/vendor-flow.generated.json
 node compare.js out/vendor-flow.generated.json samples/vendor-flow.original.json
 
 # 4. 套用:自動備份 → 寫入測試環境(不動正式!)
-set KINTONE_BASE_URL=https://your-domain.cybozu.com
-set KINTONE_API_TOKEN=你的token
+#    PowerShell 設環境變數:$env:KINTONE_BASE_URL = "https://your-domain.cybozu.com"
+#                          $env:KINTONE_API_TOKEN = "你的token"
 node apply.js --app 140 --file out/vendor-flow.generated.json
 
 # 5. 到 kintone 畫面確認測試環境的流程管理設定沒問題後,才部署

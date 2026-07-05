@@ -47,8 +47,15 @@ async function api(base, apiPath, query) {
   return json;
 }
 
-const ENTITY_FIELD_TYPES = new Set([
-  'USER_SELECT', 'ORGANIZATION_SELECT', 'GROUP_SELECT', 'CREATOR', 'MODIFIER',
+// 欄位類型 → 在流程管理裡的用途註記。
+// 皆可當 assignee 的 FIELD_ENTITY 目標：GROUP_SELECT 當處理人時，
+// kintone 會動態指派「該筆記錄選到的那個群組」裡的成員（依記錄不同而不同）。
+const ENTITY_FIELD_TYPES = new Map([
+  ['USER_SELECT', '可當處理人'],
+  ['ORGANIZATION_SELECT', '可當處理人（組織成員）'],
+  ['GROUP_SELECT', '可當處理人（依記錄選擇的群組動態指派成員）'],
+  ['CREATOR', '可當處理人（建立人）'],
+  ['MODIFIER', '可當處理人（更新人）'],
 ]);
 
 async function main() {
@@ -68,25 +75,27 @@ async function main() {
       console.log('（這個 App 沒有「選擇使用者/組織/群組」型欄位）');
     } else {
       rows.forEach((f) => {
-        console.log(`  field:${f.code}`.padEnd(34) + `${f.label}（${f.type}）`);
+        console.log(`  field:${f.code}`.padEnd(34) + `${f.label}（${f.type}）— ${ENTITY_FIELD_TYPES.get(f.type)}`);
       });
     }
-    console.log('\n  另外任何 App 都能用：field:建立人 = CREATOR、field:更新人 = MODIFIER（系統內建，不會出現在上表）');
   } catch (e) {
     console.log(`  查詢失敗：${e.message}（確認 App ID 與驗證權限）`);
   }
 
   console.log(`\n② 系統群組清單（可用 group:群組代碼）\n${'─'.repeat(60)}`);
   try {
-    const { groupList } = await api(BASE.replace(/\/k\/?$/, ''), '/v1/groups.json', {});
-    if (!groupList || !groupList.length) {
+    // User API 回應的 key 是 groups（官方文件），一次最多 100 筆
+    const resp = await api(BASE.replace(/\/k\/?$/, ''), '/v1/groups.json', { size: 100 });
+    const groups = resp.groups || [];
+    if (!groups.length) {
       console.log('（查無群組，或帳號沒有系統管理權限）');
     } else {
-      groupList.forEach((g) => console.log(`  group:${g.code}`.padEnd(34) + `${g.name}`));
+      groups.forEach((g) => console.log(`  group:${g.code}`.padEnd(34) + `${g.name}`));
+      if (groups.length === 100) console.log('  （已達單次上限 100 筆，可能還有更多群組，可改用畫面確認）');
     }
   } catch (e) {
     console.log(`  查詢失敗：${e.message}`);
-    console.log('  這支 API 需要系統管理員權限（帳號密碼或系統管理用 Token，一般 App 專用 Token 查不到）。');
+    console.log('  這支是 cybozu.com User API，需要系統管理員的帳號密碼（kintone App 專用 Token 無法使用）。');
     console.log('  查不到時改用畫面：kintone「系統管理 → 使用者與系統管理 → 群組」，代碼欄就是 group: 後面要填的值。');
   }
 
