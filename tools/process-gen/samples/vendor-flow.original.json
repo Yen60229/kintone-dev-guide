@@ -1,0 +1,1162 @@
+{
+  "enable": true,
+  "states": {
+    "總務部總務課經辦駁回": {
+      "name": "總務部總務課經辦駁回",
+      "index": "14",
+      "assignee": {
+        "type": "ONE",
+        "entities": [
+          {
+            "entity": {
+              "type": "FIELD_ENTITY",
+              "code": "申請人"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    "表單作廢": {
+      "name": "表單作廢",
+      "index": "22",
+      "assignee": {
+        "type": "ONE",
+        "entities": []
+      }
+    },
+    "總務部主管確認": {
+      "name": "總務部主管確認",
+      "index": "9",
+      "assignee": {
+        "type": "ONE",
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "總務部_主管(1)"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    "總務課課長駁回": {
+      "name": "總務課課長駁回",
+      "index": "15",
+      "assignee": {
+        "type": "ONE",
+        "entities": [
+          {
+            "entity": {
+              "type": "FIELD_ENTITY",
+              "code": "申請人"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    "草稿（未送出）": {
+      "name": "草稿（未送出）",
+      "index": "1",
+      "assignee": {
+        "type": "ONE",
+        "entities": [
+          {
+            "entity": {
+              "type": "FIELD_ENTITY",
+              "code": "申請人"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    "總務部總務課經辦確認": {
+      "name": "總務部總務課經辦確認",
+      "index": "4",
+      "assignee": {
+        "type": "ANY",
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "總務課_經辦人(1)"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    "未處理": {
+      "name": "未處理",
+      "index": "0",
+      "assignee": {
+        "type": "ONE",
+        "entities": [
+          {
+            "entity": {
+              "type": "FIELD_ENTITY",
+              "code": "建立人"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    "總務部主管駁回": {
+      "name": "總務部主管駁回",
+      "index": "16",
+      "assignee": {
+        "type": "ONE",
+        "entities": [
+          {
+            "entity": {
+              "type": "FIELD_ENTITY",
+              "code": "申請人"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    "總務部會計課經辦駁回": {
+      "name": "總務部會計課經辦駁回",
+      "index": "13",
+      "assignee": {
+        "type": "ONE",
+        "entities": [
+          {
+            "entity": {
+              "type": "FIELD_ENTITY",
+              "code": "申請人"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    "申請單位部長確認": {
+      "name": "申請單位部長確認",
+      "index": "8",
+      "assignee": {
+        "type": "ONE",
+        "entities": [
+          {
+            "entity": {
+              "type": "FIELD_ENTITY",
+              "code": "單位部長_支店長"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    "申請單位次長1駁回": {
+      "name": "申請單位次長1駁回",
+      "index": "17",
+      "assignee": {
+        "type": "ONE",
+        "entities": [
+          {
+            "entity": {
+              "type": "FIELD_ENTITY",
+              "code": "申請人"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    "總務部部長駁回": {
+      "name": "總務部部長駁回",
+      "index": "20",
+      "assignee": {
+        "type": "ONE",
+        "entities": [
+          {
+            "entity": {
+              "type": "FIELD_ENTITY",
+              "code": "申請人"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    "申請單位次長2駁回": {
+      "name": "申請單位次長2駁回",
+      "index": "18",
+      "assignee": {
+        "type": "ONE",
+        "entities": [
+          {
+            "entity": {
+              "type": "FIELD_ENTITY",
+              "code": "申請人"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    "申請單位次長2確認": {
+      "name": "申請單位次長2確認",
+      "index": "7",
+      "assignee": {
+        "type": "ONE",
+        "entities": [
+          {
+            "entity": {
+              "type": "FIELD_ENTITY",
+              "code": "單位次長1"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    "申請單位主管駁回": {
+      "name": "申請單位主管駁回",
+      "index": "12",
+      "assignee": {
+        "type": "ONE",
+        "entities": [
+          {
+            "entity": {
+              "type": "FIELD_ENTITY",
+              "code": "申請人"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    "申請單位主管確認": {
+      "name": "申請單位主管確認",
+      "index": "2",
+      "assignee": {
+        "type": "ONE",
+        "entities": [
+          {
+            "entity": {
+              "type": "FIELD_ENTITY",
+              "code": "單位主管3"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    "總務課課長確認": {
+      "name": "總務課課長確認",
+      "index": "5",
+      "assignee": {
+        "type": "ONE",
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "總務課_主管(1)"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    "流程結束": {
+      "name": "流程結束",
+      "index": "21",
+      "assignee": {
+        "type": "ANY",
+        "entities": [
+          {
+            "entity": {
+              "type": "FIELD_ENTITY",
+              "code": "測試人員"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    "申請單位部長駁回": {
+      "name": "申請單位部長駁回",
+      "index": "19",
+      "assignee": {
+        "type": "ONE",
+        "entities": [
+          {
+            "entity": {
+              "type": "FIELD_ENTITY",
+              "code": "申請人"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    "總務部會計課經辦登錄廠商代號": {
+      "name": "總務部會計課經辦登錄廠商代號",
+      "index": "11",
+      "assignee": {
+        "type": "ANY",
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "總務會計課_一般供應商資料經辦(1)"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    "總務部會計課經辦確認": {
+      "name": "總務部會計課經辦確認",
+      "index": "3",
+      "assignee": {
+        "type": "ANY",
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "總務會計課_一般供應商資料經辦(1)"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    "申請單位次長1確認": {
+      "name": "申請單位次長1確認",
+      "index": "6",
+      "assignee": {
+        "type": "ONE",
+        "entities": [
+          {
+            "entity": {
+              "type": "FIELD_ENTITY",
+              "code": "單位次長"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    "總務部部長確認": {
+      "name": "總務部部長確認",
+      "index": "10",
+      "assignee": {
+        "type": "ANY",
+        "entities": [
+          {
+            "entity": {
+              "type": "FIELD_ENTITY",
+              "code": "總務部部長"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    }
+  },
+  "actions": [
+    {
+      "name": "點擊申請開始",
+      "from": "未處理",
+      "to": "草稿（未送出）",
+      "filterCond": "",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "廠商資料作廢",
+      "from": "未處理",
+      "to": "表單作廢",
+      "filterCond": "特殊情形 in (\"作廢\")",
+      "type": "SECONDARY",
+      "executableUser": {
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "開發人員"
+            },
+            "includeSubs": false
+          },
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "總務課_修改代理人(群組)"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "提交_申請單位主管確認",
+      "from": "草稿（未送出）",
+      "to": "申請單位主管確認",
+      "filterCond": "單位主管3 in (\" GROUP\", \"課長\") and 申請人 not in (\" ORGANIZATION\", \"總務部-總務課\")",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "提交_總務部會計課確認",
+      "from": "草稿（未送出）",
+      "to": "總務部會計課經辦確認",
+      "filterCond": "單位主管3 in (\" GROUP\", \"課長\") and 申請人 in (\" ORGANIZATION\", \"總務部-總務課\")",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "提交_總務部會計課確認",
+      "from": "草稿（未送出）",
+      "to": "總務部會計課經辦確認",
+      "filterCond": "單位主管3 not in (\" GROUP\", \"課長\")",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "廠商資料作廢",
+      "from": "草稿（未送出）",
+      "to": "表單作廢",
+      "filterCond": "特殊情形 in (\"作廢\")",
+      "type": "SECONDARY",
+      "executableUser": {
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "總務課_修改代理人(群組)"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "測試",
+      "from": "草稿（未送出）",
+      "to": "流程結束",
+      "filterCond": "",
+      "type": "SECONDARY",
+      "executableUser": {
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "開發人員"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "提交總務部長確認",
+      "from": "草稿（未送出）",
+      "to": "總務部部長確認",
+      "filterCond": "",
+      "type": "SECONDARY",
+      "executableUser": {
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "開發人員"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "提交_總務部總務課確認",
+      "from": "草稿（未送出）",
+      "to": "總務部總務課經辦確認",
+      "filterCond": "",
+      "type": "SECONDARY",
+      "executableUser": {
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "開發人員"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "提交_總務部會計課確認",
+      "from": "申請單位主管確認",
+      "to": "總務部會計課經辦確認",
+      "filterCond": "紀錄號碼 != \"1346\"",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "提交_總務課課長確認",
+      "from": "申請單位主管確認",
+      "to": "總務課課長確認",
+      "filterCond": "紀錄號碼 = \"1346\"",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "駁回",
+      "from": "申請單位主管確認",
+      "to": "申請單位主管駁回",
+      "filterCond": "",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "廠商資料作廢",
+      "from": "申請單位主管確認",
+      "to": "表單作廢",
+      "filterCond": "特殊情形 in (\"作廢\")",
+      "type": "SECONDARY",
+      "executableUser": {
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "總務課_修改代理人(群組)"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "提交_總務部總務課確認",
+      "from": "總務部會計課經辦確認",
+      "to": "總務部總務課經辦確認",
+      "filterCond": "",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "駁回",
+      "from": "總務部會計課經辦確認",
+      "to": "總務部會計課經辦駁回",
+      "filterCond": "",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "提交_總務課課長確認",
+      "from": "總務部會計課經辦確認",
+      "to": "總務課課長確認",
+      "filterCond": "",
+      "type": "SECONDARY",
+      "executableUser": {
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "開發人員"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "廠商資料作廢",
+      "from": "總務部會計課經辦確認",
+      "to": "表單作廢",
+      "filterCond": "特殊情形 in (\"作廢\")",
+      "type": "SECONDARY",
+      "executableUser": {
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "總務課_修改代理人(群組)"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "提交_總務課課長確認",
+      "from": "總務部總務課經辦確認",
+      "to": "總務課課長確認",
+      "filterCond": "是否簽核至總務部長 in (\"是\")",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "確認完成",
+      "from": "總務部總務課經辦確認",
+      "to": "流程結束",
+      "filterCond": "是否簽核至總務部長 in (\"否\") and 廠商代號 != \"\"",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "提交_總務部會計課確認",
+      "from": "總務部總務課經辦確認",
+      "to": "總務部會計課經辦登錄廠商代號",
+      "filterCond": "是否簽核至總務部長 in (\"否\") and 廠商代號 = \"\"",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "駁回",
+      "from": "總務部總務課經辦確認",
+      "to": "總務部總務課經辦駁回",
+      "filterCond": "",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "廠商資料作廢",
+      "from": "總務部總務課經辦確認",
+      "to": "表單作廢",
+      "filterCond": "特殊情形 in (\"作廢\")",
+      "type": "SECONDARY",
+      "executableUser": {
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "總務課_修改代理人(群組)"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "提交_申請單位部長確認",
+      "from": "總務課課長確認",
+      "to": "申請單位部長確認",
+      "filterCond": "部門次長簽核人數 in (\"0人\") and 單位部長_支店長 in (\" GROUP\", \"部長\")",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "提交_總務部主管確認",
+      "from": "總務課課長確認",
+      "to": "總務部主管確認",
+      "filterCond": "部門次長簽核人數 in (\"0人\") and 單位部長_支店長 not in (\" GROUP\", \"部長\")",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "提交_申請單位次長1確認",
+      "from": "總務課課長確認",
+      "to": "申請單位次長1確認",
+      "filterCond": "部門次長簽核人數 in (\"2人\")",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "提交_申請單位次長2確認",
+      "from": "總務課課長確認",
+      "to": "申請單位次長2確認",
+      "filterCond": "部門次長簽核人數 in (\"1人\") and 申請人 not in (\" ORGANIZATION\", \"總務部-總務課\")",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "提交_總務部主管確認",
+      "from": "總務課課長確認",
+      "to": "總務部主管確認",
+      "filterCond": "申請人 in (\" ORGANIZATION\", \"總務部-總務課\")",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "駁回",
+      "from": "總務課課長確認",
+      "to": "總務課課長駁回",
+      "filterCond": "",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "返回至單位主管",
+      "from": "總務課課長確認",
+      "to": "申請單位主管確認",
+      "filterCond": "",
+      "type": "SECONDARY",
+      "executableUser": {
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "開發人員"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "廠商資料作廢",
+      "from": "總務課課長確認",
+      "to": "表單作廢",
+      "filterCond": "特殊情形 in (\"作廢\")",
+      "type": "SECONDARY",
+      "executableUser": {
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "總務課_修改代理人(群組)"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "提交_申請單位次長2確認",
+      "from": "申請單位次長1確認",
+      "to": "申請單位次長2確認",
+      "filterCond": "",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "駁回",
+      "from": "申請單位次長1確認",
+      "to": "申請單位次長1駁回",
+      "filterCond": "",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "廠商資料作廢",
+      "from": "申請單位次長1確認",
+      "to": "表單作廢",
+      "filterCond": "特殊情形 in (\"作廢\")",
+      "type": "SECONDARY",
+      "executableUser": {
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "總務課_修改代理人(群組)"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "提交_總務部主管確認",
+      "from": "申請單位次長2確認",
+      "to": "總務部主管確認",
+      "filterCond": "單位部長_支店長 not in (\" GROUP\", \"部長\")",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "提交_總務部長確認",
+      "from": "申請單位次長2確認",
+      "to": "總務部部長確認",
+      "filterCond": "單位部長_支店長 not in (\" GROUP\", \"部長\") and 申請單位 in (\" ORGANIZATION\", \"總務部-總務課\")",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "提交_申請單位部長確認",
+      "from": "申請單位次長2確認",
+      "to": "申請單位部長確認",
+      "filterCond": "單位部長_支店長 in (\" GROUP\", \"部長\")",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "駁回",
+      "from": "申請單位次長2確認",
+      "to": "申請單位次長2駁回",
+      "filterCond": "",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "轉至單位主管",
+      "from": "申請單位次長2確認",
+      "to": "申請單位主管確認",
+      "filterCond": "",
+      "type": "SECONDARY",
+      "executableUser": {
+        "entities": [
+          {
+            "entity": {
+              "type": "USER",
+              "code": "24136"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "廠商資料作廢",
+      "from": "申請單位次長2確認",
+      "to": "表單作廢",
+      "filterCond": "特殊情形 in (\"作廢\")",
+      "type": "SECONDARY",
+      "executableUser": {
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "總務課_修改代理人(群組)"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "提交_總務部主管確認",
+      "from": "申請單位部長確認",
+      "to": "總務部主管確認",
+      "filterCond": "",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "駁回",
+      "from": "申請單位部長確認",
+      "to": "申請單位部長駁回",
+      "filterCond": "",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "廠商資料作廢",
+      "from": "申請單位部長確認",
+      "to": "表單作廢",
+      "filterCond": "特殊情形 in (\"作廢\")",
+      "type": "SECONDARY",
+      "executableUser": {
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "總務課_修改代理人(群組)"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "提交_總務部長確認",
+      "from": "總務部主管確認",
+      "to": "總務部部長確認",
+      "filterCond": "",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "駁回",
+      "from": "總務部主管確認",
+      "to": "總務部主管駁回",
+      "filterCond": "",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "廠商資料作廢",
+      "from": "總務部主管確認",
+      "to": "表單作廢",
+      "filterCond": "特殊情形 in (\"作廢\")",
+      "type": "SECONDARY",
+      "executableUser": {
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "總務課_修改代理人(群組)"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "同意",
+      "from": "總務部部長確認",
+      "to": "流程結束",
+      "filterCond": "廠商代號 != \"\"",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "提交_總務部會計課確認",
+      "from": "總務部部長確認",
+      "to": "總務部會計課經辦登錄廠商代號",
+      "filterCond": "廠商代號 = \"\"",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "駁回",
+      "from": "總務部部長確認",
+      "to": "總務部部長駁回",
+      "filterCond": "",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "廠商資料作廢",
+      "from": "總務部部長確認",
+      "to": "表單作廢",
+      "filterCond": "特殊情形 in (\"作廢\")",
+      "type": "SECONDARY",
+      "executableUser": {
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "總務課_修改代理人(群組)"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "廠商代號登錄完成",
+      "from": "總務部會計課經辦登錄廠商代號",
+      "to": "流程結束",
+      "filterCond": "廠商代號 != \"\"",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "廠商資料作廢",
+      "from": "總務部會計課經辦登錄廠商代號",
+      "to": "表單作廢",
+      "filterCond": "特殊情形 in (\"作廢\")",
+      "type": "SECONDARY",
+      "executableUser": {
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "總務課_修改代理人(群組)"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "再申請",
+      "from": "申請單位主管駁回",
+      "to": "草稿（未送出）",
+      "filterCond": "",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "廠商資料作廢",
+      "from": "申請單位主管駁回",
+      "to": "表單作廢",
+      "filterCond": "特殊情形 in (\"作廢\")",
+      "type": "SECONDARY",
+      "executableUser": {
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "總務課_修改代理人(群組)"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "再申請",
+      "from": "總務部會計課經辦駁回",
+      "to": "草稿（未送出）",
+      "filterCond": "",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "廠商資料作廢",
+      "from": "總務部會計課經辦駁回",
+      "to": "表單作廢",
+      "filterCond": "特殊情形 in (\"作廢\")",
+      "type": "SECONDARY",
+      "executableUser": {
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "總務課_修改代理人(群組)"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "再申請",
+      "from": "總務部總務課經辦駁回",
+      "to": "草稿（未送出）",
+      "filterCond": "",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "廠商資料作廢",
+      "from": "總務部總務課經辦駁回",
+      "to": "表單作廢",
+      "filterCond": "特殊情形 in (\"作廢\")",
+      "type": "SECONDARY",
+      "executableUser": {
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "總務課_修改代理人(群組)"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "再申請",
+      "from": "總務課課長駁回",
+      "to": "草稿（未送出）",
+      "filterCond": "",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "廠商資料作廢",
+      "from": "總務課課長駁回",
+      "to": "表單作廢",
+      "filterCond": "特殊情形 in (\"作廢\")",
+      "type": "SECONDARY",
+      "executableUser": {
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "總務課_修改代理人(群組)"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "再申請",
+      "from": "申請單位次長1駁回",
+      "to": "草稿（未送出）",
+      "filterCond": "",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "廠商資料作廢",
+      "from": "申請單位次長1駁回",
+      "to": "表單作廢",
+      "filterCond": "特殊情形 in (\"作廢\")",
+      "type": "SECONDARY",
+      "executableUser": {
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "總務課_修改代理人(群組)"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "再申請",
+      "from": "申請單位次長2駁回",
+      "to": "草稿（未送出）",
+      "filterCond": "",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "廠商資料作廢",
+      "from": "申請單位次長2駁回",
+      "to": "表單作廢",
+      "filterCond": "特殊情形 in (\"作廢\")",
+      "type": "SECONDARY",
+      "executableUser": {
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "總務課_修改代理人(群組)"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "再申請",
+      "from": "申請單位部長駁回",
+      "to": "草稿（未送出）",
+      "filterCond": "",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "廠商資料作廢",
+      "from": "申請單位部長駁回",
+      "to": "表單作廢",
+      "filterCond": "特殊情形 in (\"作廢\")",
+      "type": "SECONDARY",
+      "executableUser": {
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "總務課_修改代理人(群組)"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "再申請",
+      "from": "總務部主管駁回",
+      "to": "草稿（未送出）",
+      "filterCond": "",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "廠商資料作廢",
+      "from": "總務部主管駁回",
+      "to": "表單作廢",
+      "filterCond": "特殊情形 in (\"作廢\")",
+      "type": "SECONDARY",
+      "executableUser": {
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "總務課_修改代理人(群組)"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "再申請",
+      "from": "總務部部長駁回",
+      "to": "草稿（未送出）",
+      "filterCond": "",
+      "type": "PRIMARY"
+    },
+    {
+      "name": "廠商資料作廢",
+      "from": "總務部部長駁回",
+      "to": "表單作廢",
+      "filterCond": "特殊情形 in (\"作廢\")",
+      "type": "SECONDARY",
+      "executableUser": {
+        "entities": [
+          {
+            "entity": {
+              "type": "GROUP",
+              "code": "總務課_修改代理人(群組)"
+            },
+            "includeSubs": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "測試廠商代號",
+      "from": "流程結束",
+      "to": "總務部會計課經辦登錄廠商代號",
+      "filterCond": "測試人員 in (\" ORGANIZATION\", \"NX臺灣國際物流\", \" ORGANIZATION\", \"聯海通運股份有限公司\")",
+      "type": "PRIMARY"
+    }
+  ],
+  "revision": "882"
+}

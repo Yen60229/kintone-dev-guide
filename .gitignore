@@ -3,3 +3,5 @@ node_modules/
 *.log
 
 skill/kintone-dev-workspace/
+tools/process-gen/out/
+tools/process-gen/backups/

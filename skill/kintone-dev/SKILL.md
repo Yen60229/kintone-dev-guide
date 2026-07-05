@@ -123,6 +123,7 @@ const codeOf = (key) => CONFIG.FIELDS[key];
 | 安全、XSS、submit 覆蓋、API Token、race condition、行動版、isSubmitting、double submit | `references/security-guide.md` | 完整安全性指南（含 ❌/✅ 對比程式碼） |
 | SDK、工具、ESLint、uploader、plugin、CDN、cli-kintone、TypeScript、Dify、MCP | `references/tools-and-resources.md` | SDK 工具鏈 + AI 整合（MCP Server、Dify）+ 日文版獨有資源 |
 | 效能、記憶體、卡死、崩潰、OOM、低階電腦、8GB、全量、大量資料、分批、串流、降級、分流、DAO、forEach、巢狀迴圈、deviceMemory | `references/performance-guide.md` | 效能/記憶體優化（8 條原則 + 降級/分流/DAO + 串流 DAO 實作） |
+| 流程管理設定、簽核流程設計、status.json、狀態與動作、駁回、匯出匯入流程、assignee、filterCond、部署 deploy | `references/process-management.md` | 流程設定 JSON 結構詳解 + API 直通流程（GET→PUT preview→deploy）+ 規格檔/產生器工作流 + 流程設計守則 |
 
 > 若使用者只是「幫我寫一個 kintone 功能」等一般性請求，不需要載入 reference，直接用下方的 Pattern 速查 + 安全清單即可。但只要程式會讀寫當前畫面記錄或涉及 change / process.proceed，就必讀 `references/js-api-limits.md`。
 
